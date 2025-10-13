@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crispy Lungs Club - Quit vaping without going nuts</title>
+    
+    <!-- App Icons -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐿️</text></svg>">
+    <link rel="shortcut icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐿️</text></svg>">
+    <meta name="theme-color" content="#C05A33">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Crispy Lungs Club">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'copper': '#C05A33',
+                        'driftwood': '#C2834D',
+                        'mocha': '#E2C7B2',
+                        'darkwood': '#5B4431'
+                    },
+                    fontFamily: {
+                        'nunito': ['Nunito', 'sans-serif']
+                    }
+                }
+            },
+            darkMode: 'class'
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+        }
+        
+        .squirrel-happy {
+            animation: bounce 0.6s ease-in-out;
+        }
+        
+        .squirrel-sad {
+            animation: shake 0.6s ease-in-out;
+        }
+        
+        .nut-collect {
+            animation: nutFall 0.8s ease-out;
+        }
+        
+        .nut-disappear {
+            animation: fadeOut 0.5s ease-out;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        
+        @keyframes nutFall {
+            0% { transform: translateY(-50px) scale(0); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(0) scale(1); opacity: 1; }
+        }
+        
+        @keyframes fadeOut {
+            0% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.5); }
+        }
+        
+        .breathing-circle {
+            animation: breathe 4s ease-in-out infinite;
+        }
+        
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.2); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-mocha dark:bg-gray-900 text-darkwood dark:text-gray-100 min-h-screen">
+
+    <!-- Navigation -->
+    <nav class="bg-copper dark:bg-gray-800 shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center space-x-2">
+                    <span class="text-2xl">🐿️</span>
+                    <h1 class="text-xl font-bold text-white">Crispy Lungs Club</h1>
+                </div>
+                <div class="flex space-x-4">
+                    <button onclick="showSection('dashboard')" class="nav-btn text-white hover:text-mocha transition-colors text-base">Dashboard</button>
+                    <button onclick="showSection('tracker')" class="nav-btn text-white hover:text-mocha transition-colors text-base">Tracker</button>
+                    <button onclick="showSection('distraction')" class="nav-btn text-white hover:text-mocha transition-colors text-base">Distractions</button>
+                    <button onclick="showSection('faq')" class="nav-btn text-white hover:text-mocha transition-colors text-base">FAQ</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Onboarding Section -->
+    <section id="onboarding" class="section">
+        <div class="max-w-2xl mx-auto px-4 py-8">
+            <div class="text-center mb-8">
+                <div class="text-8xl mb-4">🐿️</div>
+                <h1 class="text-4xl font-bold mb-2">Welcome to Crispy Lungs Club!</h1>
+                <p class="text-xl text-driftwood dark:text-gray-300">Quit vaping without going nuts</p>
+            </div>
+            
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
+                <p class="text-lg mb-6 text-center">Meet your new buddy! This squirrel collects a nut for every vape-free day. Help them build the ultimate winter stash!</p>
+                
+                <form id="onboardingForm" class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Age</label>
+                        <input type="number" id="age" class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-base" required>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Weight (optional)</label>
+                        <input type="number" id="weight" class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-base" placeholder="lbs">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Average weekly vape spend</label>
+                        <div class="relative">
+                            <span class="absolute left-3 top-3">$</span>
+                            <input type="number" id="weeklySpend" class="w-full pl-8 pr-3 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-base" placeholder="24" required>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Goal</label>
+                        <select id="goal" class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-base">
+                            <option value="quit">Quit completely</option>
+                            <option value="reduce">Reduce usage</option>
+                            <option value="explore">Just exploring</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Why are you here today?</label>
+                        <textarea id="motivation" class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-base h-24" placeholder="Share what brought you here..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-copper hover:bg-driftwood text-white font-bold py-3 px-6 rounded-lg transition-colors text-base">
+                        Start My Journey 🌰
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section id="dashboard" class="section hidden">
+        <div class="max-w-4xl mx-auto px-4 py-8">
+            <!-- Daily Check-in -->
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 mb-8">
+                <h2 class="text-2xl font-bold mb-6 text-center">Daily Check-in</h2>
+                
+                <div class="text-center mb-8">
+                    <div id="squirrel" class="text-8xl mb-4">🐿️</div>
+                    <div id="nutPile" class="text-4xl mb-4"></div>
+                    <p class="text-lg font-semibold">Did you vape today?</p>
+                </div>
+                
+                <div class="flex justify-center space-x-4 mb-6">
+                    <button onclick="recordDay(false)" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg transition-colors text-base">
+                        No! 🎉
+                    </button>
+                    <button onclick="recordDay(true)" class="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-8 rounded-lg transition-colors text-base">
+                        Yes 😔
+                    </button>
+                </div>
+                
+                <div id="dailyMessage" class="text-center text-lg font-semibold"></div>
+            </div>
+            
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 text-center">
+                    <div class="text-3xl mb-2">🗓️</div>
+                    <div id="currentStreak" class="text-3xl font-bold text-copper">0</div>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Current Streak</p>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 text-center">
+                    <div class="text-3xl mb-2">🏆</div>
+                    <div id="bestStreak" class="text-3xl font-bold text-copper">0</div>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Best Streak</p>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 text-center">
+                    <div class="text-3xl mb-2">💰</div>
+                    <div id="moneySaved" class="text-3xl font-bold text-green-600">$0</div>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Money Saved</p>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 text-center">
+                    <div class="text-3xl mb-2">🌰</div>
+                    <div id="totalNuts" class="text-3xl font-bold text-driftwood">0</div>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Total Nuts</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trigger Tracker Section -->
+    <section id="tracker" class="section hidden">
+        <div class="max-w-4xl mx-auto px-4 py-8">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
+                <h2 class="text-2xl font-bold mb-6">Trigger Tracker</h2>
+                
+                <form id="triggerForm" class="space-y-6 mb-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Time of Day</label>
+                            <input type="time" id="triggerTime" class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-base" required>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Trigger Category</label>
+                            <select id="triggerCategory" class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-base" required>
+                                <option value="">Select category...</option>
+                                <optgroup label="Emotional">
+                                    <option value="stress">Stress</option>
+                                    <option value="boredom">Boredom</option>
+                                    <option value="anxiety">Anxiety</option>
+                                    <option value="sadness">Sadness</option>
+                                </optgroup>
+                                <optgroup label="Situational">
+                                    <option value="social">Social setting</option>
+                                    <option value="after-meals">After meals</option>
+                                    <option value="work-break">Work break</option>
+                                    <option value="driving">Driving</option>
+                                </optgroup>
+                                <optgroup label="Physical">
+                                    <option value="restlessness">Restlessness</option>
+                                    <option value="withdrawal">Withdrawal</option>
+                                    <option value="habit">Habit/routine</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Custom Trigger (optional)</label>
+                        <input type="text" id="customTrigger" class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-base" placeholder="Describe your specific trigger...">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Mood Before (1-10)</label>
+                        <input type="range" id="moodBefore" min="1" max="10" value="5" class="w-full">
+                        <div class="flex justify-between text-sm text-gray-600 dark:text-gray-400">
+                            <span>😢 Bad</span>
+                            <span id="moodValue">5</span>
+                            <span>😊 Great</span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">What did you do instead?</label>
+                        <textarea id="copingStrategy" class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-base h-24" placeholder="How did you handle the craving?"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-copper hover:bg-driftwood text-white font-bold py-3 px-6 rounded-lg transition-colors text-base">
+                        Log Trigger 📝
+                    </button>
+                </form>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Recent Logs</h3>
+                    <div id="triggerLogs" class="space-y-4"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Distraction Station Section -->
+    <section id="distraction" class="section hidden">
+        <div class="max-w-4xl mx-auto px-4 py-8">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
+                <h2 class="text-2xl font-bold mb-6 text-center">Urge Distraction Station</h2>
+                
+                <div class="text-center mb-8">
+                    <div id="currentDistraction" class="text-6xl mb-4">🎯</div>
+                    <div id="distractionText" class="text-xl font-semibold mb-6">Click the button below for a distraction!</div>
+                    <button onclick="getDistraction()" class="bg-copper hover:bg-driftwood text-white font-bold py-3 px-8 rounded-lg transition-colors text-base mb-6">
+                        Get Distraction 🔄
+                    </button>
+                </div>
+                
+                <!-- Breathing Exercise -->
+                <div class="text-center mb-8">
+                    <h3 class="text-xl font-bold mb-4">Breathing Exercise</h3>
+                    <div class="breathing-circle w-32 h-32 bg-copper rounded-full mx-auto mb-4 flex items-center justify-center">
+                        <span class="text-white font-bold text-lg">Breathe</span>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-400">Follow the circle: breathe in as it grows, breathe out as it shrinks</p>
+                </div>
+                
+                <!-- Mini Tap Game -->
+                <div class="text-center">
+                    <h3 class="text-xl font-bold mb-4">Squirrel Tap Game</h3>
+                    <div class="bg-mocha dark:bg-gray-700 rounded-lg p-6 inline-block">
+                        <div id="tapSquirrel" class="text-6xl cursor-pointer select-none hover:scale-110 transition-transform" onclick="tapGame()">🐿️</div>
+                        <div id="tapScore" class="text-lg font-bold mt-2">Taps: 0</div>
+                        <button onclick="resetTapGame()" class="mt-2 bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded text-sm">Reset</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="section hidden">
+        <div class="max-w-4xl mx-auto px-4 py-8">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
+                <h2 class="text-2xl font-bold mb-8 text-center">Frequently Asked Questions</h2>
+                
+                <div class="space-y-6">
+                    <div class="border-b border-gray-200 dark:border-gray-600 pb-6">
+                        <h3 class="text-xl font-bold mb-3">🤔 What if I mess up?</h3>
+                        <p class="text-gray-700 dark:text-gray-300">That's totally normal! Quitting isn't linear. Your squirrel buddy understands that setbacks happen. The important thing is getting back on track. Every attempt teaches you something new about your triggers and what works for you.</p>
+                    </div>
+                    
+                    <div class="border-b border-gray-200 dark:border-gray-600 pb-6">
+                        <h3 class="text-xl font-bold mb-3">⏰ Do I have to quit forever?</h3>
+                        <p class="text-gray-700 dark:text-gray-300">Not necessarily! Some people aim for complete cessation, others focus on harm reduction. The goal is whatever feels right for you. Even cutting back significantly can have health benefits. Your squirrel is here to support whatever journey you're on.</p>
+                    </div>
+                    
+                    <div class="border-b border-gray-200 dark:border-gray-600 pb-6">
+                        <h3 class="text-xl font-bold mb-3">⏳ How long do cravings last?</h3>
+                        <p class="text-gray-700 dark:text-gray-300">Most intense cravings peak in the first 3-5 minutes and usually pass within 10-20 minutes. The first few days are typically the hardest, but it gets easier! Physical withdrawal symptoms usually subside within a few weeks.</p>
+                    </div>
+                    
+                    <div class="border-b border-gray-200 dark:border-gray-600 pb-6">
+                        <h3 class="text-xl font-bold mb-3">🐌 Cold turkey or slow down?</h3>
+                        <p class="text-gray-700 dark:text-gray-300">Both approaches work for different people! Cold turkey can be faster but more intense. Gradual reduction can be easier to manage but takes longer. Listen to your body and choose what feels sustainable for you. You can always adjust your approach.</p>
+                    </div>
+                    
+                    <div class="border-b border-gray-200 dark:border-gray-600 pb-6">
+                        <h3 class="text-xl font-bold mb-3">💪 Daily Affirmations</h3>
+                        <div class="bg-mocha dark:bg-gray-700 rounded-lg p-4">
+                            <ul class="space-y-2 text-gray-700 dark:text-gray-300">
+                                <li>• I am choosing my health over temporary comfort</li>
+                                <li>• Every craving I resist makes me stronger</li>
+                                <li>• My body is healing with each vape-free day</li>
+                                <li>• I deserve to breathe freely and clearly</li>
+                                <li>• This feeling will pass, my strength will remain</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="border-b border-gray-200 dark:border-gray-600 pb-6">
+                        <h3 class="text-xl font-bold mb-3">💾 Data & Privacy</h3>
+                        <p class="text-gray-700 dark:text-gray-300 mb-3">Crispy Lungs Club is a web app that stores all your data locally on your device - we don't collect or store any personal information on external servers. This means:</p>
+                        <ul class="text-gray-700 dark:text-gray-300 space-y-1 mb-4 ml-4">
+                            <li>• Your data stays private and secure on your device</li>
+                            <li>• Data may be lost if you clear browser data or switch devices</li>
+                            <li>• No account registration required</li>
+                        </ul>
+                        <div class="flex flex-wrap gap-3">
+                            <button onclick="exportData()" class="bg-copper hover:bg-driftwood text-white px-4 py-2 rounded text-sm">
+                                📤 Export Data
+                            </button>
+                            <button onclick="importData()" class="bg-driftwood hover:bg-copper text-white px-4 py-2 rounded text-sm">
+                                📥 Import Data
+                            </button>
+                        </div>
+                        <input type="file" id="importFile" accept=".json" style="display: none;" onchange="handleFileImport(event)">
+                    </div>
+                    
+                    <div class="border-b border-gray-200 dark:border-gray-600 pb-6">
+                        <h3 class="text-xl font-bold mb-3">⚠️ Important Disclaimer</h3>
+                        <div class="bg-yellow-50 dark:bg-yellow-900 border border-yellow-200 dark:border-yellow-700 rounded-lg p-4">
+                            <p class="text-yellow-800 dark:text-yellow-200 font-semibold mb-2">Not Medical Advice</p>
+                            <p class="text-yellow-800 dark:text-yellow-200 text-sm">Crispy Lungs Club is designed for support and motivation only. This app is not a substitute for professional medical advice, diagnosis, or treatment. If you're experiencing severe withdrawal symptoms, mental health concerns, or other medical issues, please consult with a qualified healthcare provider. Always seek professional medical advice for any questions about your health or substance use.</p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-bold mb-3">📞 Need Support?</h3>
+                        <div class="bg-green-50 dark:bg-green-900 border border-green-200 dark:border-green-700 rounded-lg p-4">
+                            <p class="text-green-800 dark:text-green-200 mb-2"><strong>Crisis Text Line:</strong> Text HOME to 741741</p>
+                            <p class="text-green-800 dark:text-green-200 mb-2"><strong>National Suicide Prevention Lifeline:</strong> 988</p>
+                            <p class="text-green-800 dark:text-green-200"><strong>SAMHSA National Helpline:</strong> 1-800-662-4357</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Dark mode detection
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            if (event.matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
+
+        // Global state
+        let userData = {};
+        let appData = {
+            currentStreak: 0,
+            bestStreak: 0,
+            totalNuts: 0,
+            moneySaved: 0,
+            dailySavings: 0,
+            lastCheckIn: null,
+            triggerLogs: [],
+            tapScore: 0
+        };
+
+        // Distraction suggestions organized by category
+        const distractions = [
+            // 🐾 Animal Encounters
+            { emoji: '🐱', text: 'Hug a cat (if the cat agrees)' },
+            { emoji: '📺', text: 'Watch 2 minutes of animal videos' },
+            { emoji: '🐕', text: 'Find a real-life animal to chase (respectfully)' },
+            { emoji: '🐿️', text: 'Make eye contact with a squirrel' },
+            { emoji: '🐦', text: 'Draw your emotional state as a pigeon' },
+            
+            // 🧠 Quick Mind Shifts
+            { emoji: '🔤', text: 'Say the alphabet backward out loud' },
+            { emoji: '📱', text: 'Text a friend a gif with zero context' },
+            { emoji: '🧩', text: 'Solve one riddle or brain teaser' },
+            { emoji: '🗺️', text: 'Try to name all the U.S. states (no cheating)' },
+            { emoji: '✉️', text: 'Write a message to your future self (even if it\'s weird)' },
+            
+            // 🧘‍♀️ Grounding & Movement
+            { emoji: '😮‍💨', text: 'Do 5 deep belly breaths' },
+            { emoji: '🐱', text: 'Stretch like a cat waking up' },
+            { emoji: '🚶', text: 'March in place for 60 seconds' },
+            { emoji: '💃', text: 'Shake your arms like inflatable car flappy guys' },
+            { emoji: '👋', text: 'Touch 5 things and say their texture aloud' },
+            { emoji: '🧘', text: 'Do 10 jumping jacks' },
+            { emoji: '💧', text: 'Drink a large glass of water' },
+            
+            // 🧹 Productive & Petty Tasks
+            { emoji: '🧹', text: 'Clean one corner of something' },
+            { emoji: '📱', text: 'Organize your phone home screen' },
+            { emoji: '🚿', text: 'Take a spitefully efficient shower' },
+            { emoji: '👕', text: 'Fold laundry like a monk' },
+            { emoji: '📝', text: 'Make a to-do list you\'ll probably ignore' },
+            
+            // 🎨 Creative Distractors
+            { emoji: '🐿️', text: 'Doodle a squirrel army' },
+            { emoji: '⭐', text: 'Write a fake Yelp review for your craving' },
+            { emoji: '🎨', text: 'Design a logo for your inner peace' },
+            { emoji: '🎵', text: 'Try to rhyme everything for 3 minutes' },
+            { emoji: '🔨', text: 'Build something out of random objects nearby' },
+            
+            // Original classics
+            { emoji: '📚', text: 'Read one paragraph of something' },
+            { emoji: '🍎', text: 'Eat a healthy snack' },
+            { emoji: '🎯', text: 'List 3 things you\'re grateful for' },
+            { emoji: '🎭', text: 'Make funny faces in the mirror' },
+            { emoji: '📝', text: 'Write down your feelings' }
+        ];
+
+        // Initialize app
+        function initApp() {
+            loadData();
+            
+            // Check if user has completed onboarding
+            if (userData.age) {
+                showSection('dashboard');
+                updateDashboard();
+            } else {
+                showSection('onboarding');
+            }
+            
+            setupEventListeners();
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Onboarding form
+            document.getElementById('onboardingForm').addEventListener('submit', handleOnboarding);
+            
+            // Trigger form
+            document.getElementById('triggerForm').addEventListener('submit', handleTriggerLog);
+            
+            // Mood slider
+            document.getElementById('moodBefore').addEventListener('input', function() {
+                document.getElementById('moodValue').textContent = this.value;
+            });
+        }
+
+        // Handle onboarding
+        function handleOnboarding(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            userData = {
+                age: parseInt(formData.get('age')),
+                weight: formData.get('weight') ? parseInt(formData.get('weight')) : null,
+                weeklySpend: parseFloat(formData.get('weeklySpend')),
+                goal: formData.get('goal'),
+                motivation: formData.get('motivation'),
+                startDate: new Date().toISOString()
+            };
+            
+            appData.dailySavings = userData.weeklySpend / 7;
+            
+            saveData();
+            showSection('dashboard');
+            updateDashboard();
+        }
+
+        // Show section
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            // Show requested section
+            document.getElementById(sectionName).classList.remove('hidden');
+            
+            // Update nav highlighting
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-driftwood');
+            });
+            
+            if (sectionName !== 'onboarding') {
+                document.querySelector(`[onclick="showSection('${sectionName}')"]`)?.classList.add('bg-driftwood');
+            }
+        }
+
+        // Record daily check-in
+        function recordDay(vaped) {
+            const today = new Date().toDateString();
+            
+            if (appData.lastCheckIn === today) {
+                showCustomAlert('You\'ve already checked in today!');
+                return;
+            }
+            
+            appData.lastCheckIn = today;
+            
+            const squirrel = document.getElementById('squirrel');
+            const nutPile = document.getElementById('nutPile');
+            const message = document.getElementById('dailyMessage');
+            
+            if (!vaped) {
+                // Vape-free day!
+                appData.currentStreak++;
+                appData.totalNuts++;
+                appData.moneySaved += appData.dailySavings;
+                
+                if (appData.currentStreak > appData.bestStreak) {
+                    appData.bestStreak = appData.currentStreak;
+                }
+                
+                // Happy animation
+                squirrel.classList.add('squirrel-happy');
+                setTimeout(() => squirrel.classList.remove('squirrel-happy'), 600);
+                
+                // Add nut with animation
+                const newNut = document.createElement('span');
+                newNut.textContent = '🌰';
+                newNut.classList.add('nut-collect');
+                nutPile.appendChild(newNut);
+                
+                message.textContent = `Amazing! Your squirrel is so proud! ${appData.currentStreak} day${appData.currentStreak === 1 ? '' : 's'} strong! 🎉`;
+                message.className = 'text-center text-lg font-semibold text-green-600';
+                
+            } else {
+                // Vaped today
+                if (appData.currentStreak > 0) {
+                    // Sad animation
+                    squirrel.classList.add('squirrel-sad');
+                    setTimeout(() => squirrel.classList.remove('squirrel-sad'), 600);
+                    
+                    // Remove nuts with animation
+                    const nuts = nutPile.querySelectorAll('span');
+                    nuts.forEach((nut, index) => {
+                        setTimeout(() => {
+                            nut.classList.add('nut-disappear');
+                            setTimeout(() => nut.remove(), 500);
+                        }, index * 100);
+                    });
+                    
+                    appData.currentStreak = 0;
+                    appData.totalNuts = 0;
+                }
+                
+                message.textContent = 'It\'s okay! Tomorrow is a fresh start. Your squirrel believes in you! 💪';
+                message.className = 'text-center text-lg font-semibold text-orange-600';
+            }
+            
+            saveData();
+            updateDashboard();
+        }
+
+        // Update dashboard
+        function updateDashboard() {
+            document.getElementById('currentStreak').textContent = appData.currentStreak;
+            document.getElementById('bestStreak').textContent = appData.bestStreak;
+            document.getElementById('moneySaved').textContent = `$${appData.moneySaved.toFixed(2)}`;
+            document.getElementById('totalNuts').textContent = appData.totalNuts;
+            
+            // Update nut pile display
+            const nutPile = document.getElementById('nutPile');
+            nutPile.innerHTML = '';
+            for (let i = 0; i < Math.min(appData.totalNuts, 20); i++) {
+                const nut = document.createElement('span');
+                nut.textContent = '🌰';
+                nutPile.appendChild(nut);
+            }
+            if (appData.totalNuts > 20) {
+                const moreText = document.createElement('span');
+                moreText.textContent = ` +${appData.totalNuts - 20} more!`;
+                moreText.className = 'text-sm text-gray-600 dark:text-gray-400';
+                nutPile.appendChild(moreText);
+            }
+        }
+
+        // Handle trigger log
+        function handleTriggerLog(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const trigger = {
+                id: Date.now(),
+                date: new Date().toISOString(),
+                time: formData.get('triggerTime'),
+                category: formData.get('triggerCategory'),
+                customTrigger: formData.get('customTrigger'),
+                moodBefore: parseInt(formData.get('moodBefore')),
+                copingStrategy: formData.get('copingStrategy')
+            };
+            
+            appData.triggerLogs.unshift(trigger);
+            
+            // Keep only last 50 logs
+            if (appData.triggerLogs.length > 50) {
+                appData.triggerLogs = appData.triggerLogs.slice(0, 50);
+            }
+            
+            saveData();
+            updateTriggerLogs();
+            
+            // Reset form
+            e.target.reset();
+            document.getElementById('moodValue').textContent = '5';
+            
+            showCustomAlert('Trigger logged! Great job tracking your patterns! 📝');
+        }
+
+        // Update trigger logs display
+        function updateTriggerLogs() {
+            const container = document.getElementById('triggerLogs');
+            
+            if (appData.triggerLogs.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-center">No triggers logged yet.</p>';
+                return;
+            }
+            
+            container.innerHTML = appData.triggerLogs.slice(0, 10).map(trigger => {
+                const date = new Date(trigger.date);
+                return `
+                    <div class="bg-mocha dark:bg-gray-700 rounded-lg p-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="font-semibold">${trigger.category}</span>
+                            <span class="text-sm text-gray-500">${date.toLocaleDateString()} ${trigger.time}</span>
+                        </div>
+                        ${trigger.customTrigger ? `<p class="text-sm text-gray-600 dark:text-gray-400 mb-1">Custom: ${trigger.customTrigger}</p>` : ''}
+                        <p class="text-sm mb-1">Mood: ${trigger.moodBefore}/10</p>
+                        ${trigger.copingStrategy ? `<p class="text-sm"><strong>Coping:</strong> ${trigger.copingStrategy}</p>` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Get random distraction
+        function getDistraction() {
+            const distraction = distractions[Math.floor(Math.random() * distractions.length)];
+            document.getElementById('currentDistraction').textContent = distraction.emoji;
+            document.getElementById('distractionText').textContent = distraction.text;
+        }
+
+        // Tap game
+        function tapGame() {
+            appData.tapScore++;
+            document.getElementById('tapScore').textContent = `Taps: ${appData.tapScore}`;
+            
+            const squirrel = document.getElementById('tapSquirrel');
+            squirrel.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                squirrel.style.transform = 'scale(1)';
+            }, 100);
+        }
+
+        function resetTapGame() {
+            appData.tapScore = 0;
+            document.getElementById('tapScore').textContent = 'Taps: 0';
+        }
+
+        // Data persistence with fallback for iframe restrictions
+        let storageAvailable = false;
+        
+        // Check if localStorage is available
+        function checkStorageAvailability() {
+            try {
+                const test = 'test';
+                localStorage.setItem(test, test);
+                localStorage.removeItem(test);
+                storageAvailable = true;
+                return true;
+            } catch (e) {
+                storageAvailable = false;
+                console.log('localStorage not available, using in-memory storage');
+                return false;
+            }
+        }
+
+        function saveData() {
+            if (storageAvailable) {
+                try {
+                    localStorage.setItem('crispyLungsUserData', JSON.stringify(userData));
+                    localStorage.setItem('crispyLungsAppData', JSON.stringify(appData));
+                } catch (error) {
+                    console.log('Error saving to localStorage:', error);
+                }
+            }
+            // Data is already in memory (userData and appData variables)
+            console.log('Data saved (in-memory storage)');
+        }
+
+        function loadData() {
+            checkStorageAvailability();
+            
+            if (storageAvailable) {
+                try {
+                    const savedUserData = localStorage.getItem('crispyLungsUserData');
+                    const savedAppData = localStorage.getItem('crispyLungsAppData');
+                    
+                    if (savedUserData) {
+                        userData = JSON.parse(savedUserData);
+                        appData.dailySavings = userData.weeklySpend / 7;
+                    }
+                    
+                    if (savedAppData) {
+                        appData = { ...appData, ...JSON.parse(savedAppData) };
+                    }
+                    console.log('Data loaded from localStorage');
+                } catch (error) {
+                    console.log('Error loading from localStorage:', error);
+                }
+            } else {
+                // In iframe environment, data persists only for the session
+                console.log('Using in-memory storage - data will reset when page is refreshed');
+            }
+        }
+
+        // Data export/import functions
+        function exportData() {
+            const exportData = {
+                userData: userData,
+                appData: appData,
+                exportDate: new Date().toISOString(),
+                version: '1.0'
+            };
+            
+            const dataStr = JSON.stringify(exportData, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `crispy-lungs-backup-${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            
+            URL.revokeObjectURL(url);
+            showCustomAlert('Data exported successfully! 📤');
+        }
+
+        function importData() {
+            document.getElementById('importFile').click();
+        }
+
+        function handleFileImport(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    
+                    // Validate the imported data
+                    if (importedData.userData && importedData.appData) {
+                        // Confirm import
+                        showConfirmDialog(
+                            'Import data? This will replace your current progress.',
+                            () => {
+                                userData = importedData.userData;
+                                appData = importedData.appData;
+                                
+                                // Recalculate daily savings
+                                if (userData.weeklySpend) {
+                                    appData.dailySavings = userData.weeklySpend / 7;
+                                }
+                                
+                                saveData();
+                                updateDashboard();
+                                updateTriggerLogs();
+                                
+                                showCustomAlert('Data imported successfully! 📥');
+                            }
+                        );
+                    } else {
+                        showCustomAlert('Invalid backup file format. Please select a valid Crispy Lungs Club backup file.');
+                    }
+                } catch (error) {
+                    showCustomAlert('Error reading backup file. Please make sure the file is not corrupted.');
+                }
+            };
+            reader.readAsText(file);
+            
+            // Reset file input
+            event.target.value = '';
+        }
+
+        // Custom confirm dialog function
+        function showConfirmDialog(message, onConfirm) {
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            modal.innerHTML = `
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-sm w-full mx-4">
+                    <p class="text-gray-700 dark:text-gray-300 mb-4">${message}</p>
+                    <div class="flex justify-end space-x-3">
+                        <button class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded" onclick="this.closest('.fixed').remove()">Cancel</button>
+                        <button class="px-4 py-2 bg-copper text-white hover:bg-driftwood rounded" onclick="this.closest('.fixed').remove(); (${onConfirm.toString()})()">Confirm</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        // Custom alert function (since alert() is not supported)
+        function showCustomAlert(message) {
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            modal.innerHTML = `
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-sm w-full mx-4">
+                    <p class="text-gray-700 dark:text-gray-300 mb-4">${message}</p>
+                    <div class="flex justify-end">
+                        <button class="px-4 py-2 bg-copper text-white hover:bg-driftwood rounded" onclick="this.closest('.fixed').remove()">OK</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        // Initialize app when page loads
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
