@@ -6,8 +6,9 @@
     <title>Crispy Lungs Club - Quit vaping without going nuts</title>
     
     <!-- App Icons -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐿️</text></svg>">
-    <link rel="shortcut icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐿️</text></svg>">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23C05A33'/%3E%3Ccircle cx='35' cy='45' r='3' fill='%23000'/%3E%3Ccircle cx='65' cy='45' r='3' fill='%23000'/%3E%3Cpath d='M30 35 Q50 25 70 35' fill='none' stroke='%23654321' stroke-width='3'/%3E%3Cpath d='M45 60 Q50 65 55 60' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M40 70 Q50 75 60 70' fill='none' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E">
+    <link rel="shortcut icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23C05A33'/%3E%3Ccircle cx='35' cy='45' r='3' fill='%23000'/%3E%3Ccircle cx='65' cy='45' r='3' fill='%23000'/%3E%3Cpath d='M30 35 Q50 25 70 35' fill='none' stroke='%23654321' stroke-width='3'/%3E%3Cpath d='M45 60 Q50 65 55 60' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M40 70 Q50 75 60 70' fill='none' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23C05A33'/%3E%3Ccircle cx='35' cy='45' r='3' fill='%23000'/%3E%3Ccircle cx='65' cy='45' r='3' fill='%23000'/%3E%3Cpath d='M30 35 Q50 25 70 35' fill='none' stroke='%23654321' stroke-width='3'/%3E%3Cpath d='M45 60 Q50 65 55 60' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M40 70 Q50 75 60 70' fill='none' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E">
     <meta name="theme-color" content="#C05A33">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -100,6 +101,7 @@
                     <button onclick="showSection('dashboard')" class="nav-btn text-white hover:text-mocha transition-colors text-base">Dashboard</button>
                     <button onclick="showSection('tracker')" class="nav-btn text-white hover:text-mocha transition-colors text-base">Tracker</button>
                     <button onclick="showSection('distraction')" class="nav-btn text-white hover:text-mocha transition-colors text-base">Distractions</button>
+                    <button onclick="showSection('settings')" class="nav-btn text-white hover:text-mocha transition-colors text-base">Settings</button>
                     <button onclick="showSection('faq')" class="nav-btn text-white hover:text-mocha transition-colors text-base">FAQ</button>
                 </div>
             </div>
@@ -326,6 +328,68 @@
         </div>
     </section>
 
+    <!-- Settings Section -->
+    <section id="settings" class="section hidden">
+        <div class="max-w-2xl mx-auto px-4 py-8">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
+                <h2 class="text-2xl font-bold mb-6 text-center">Settings</h2>
+                
+                <form id="settingsForm" class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Nickname</label>
+                        <input type="text" id="settingsNickname" name="nickname" class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-base" required>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Age</label>
+                        <input type="number" id="settingsAge" name="age" class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-base" required>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Weight (optional)</label>
+                        <input type="number" id="settingsWeight" name="weight" class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-base" placeholder="lbs">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Average weekly vape spend</label>
+                        <div class="relative">
+                            <span class="absolute left-3 top-3">$</span>
+                            <input type="number" id="settingsWeeklySpend" name="weeklySpend" class="w-full pl-8 pr-3 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-base" required>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Goal</label>
+                        <select id="settingsGoal" name="goal" class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-base">
+                            <option value="quit">Quit completely</option>
+                            <option value="reduce">Reduce usage</option>
+                            <option value="explore">Just exploring</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Why are you here today?</label>
+                        <textarea id="settingsMotivation" name="motivation" class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-base h-24"></textarea>
+                    </div>
+                    
+                    <div class="flex space-x-4">
+                        <button type="submit" class="flex-1 bg-copper hover:bg-driftwood text-white font-bold py-3 px-6 rounded-lg transition-colors text-base">
+                            Save Changes ✅
+                        </button>
+                        <button type="button" onclick="resetAllData()" class="flex-1 bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-lg transition-colors text-base">
+                            Reset All Data 🗑️
+                        </button>
+                    </div>
+                </form>
+                
+                <div class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-600">
+                    <h3 class="text-lg font-bold mb-4">Account Started</h3>
+                    <p id="startDate" class="text-gray-600 dark:text-gray-400">-</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- FAQ Section -->
     <section id="faq" class="section hidden">
         <div class="max-w-4xl mx-auto px-4 py-8">
@@ -502,6 +566,9 @@
             // Trigger form
             document.getElementById('triggerForm').addEventListener('submit', handleTriggerLog);
             
+            // Settings form
+            document.getElementById('settingsForm').addEventListener('submit', handleSettingsUpdate);
+            
             // Mood slider
             document.getElementById('moodBefore').addEventListener('input', function() {
                 document.getElementById('moodValue').textContent = this.value;
@@ -551,6 +618,11 @@
             
             if (sectionName !== 'onboarding') {
                 document.querySelector(`[onclick="showSection('${sectionName}')"]`)?.classList.add('bg-driftwood');
+            }
+            
+            // Populate settings form when navigating to settings
+            if (sectionName === 'settings') {
+                populateSettingsForm();
             }
         }
 
@@ -878,6 +950,83 @@
                 </div>
             `;
             document.body.appendChild(modal);
+        }
+
+        // Handle settings update
+        function handleSettingsUpdate(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const weeklySpendValue = parseFloat(formData.get('weeklySpend')) || 0;
+            
+            // Update userData with new values
+            userData.nickname = formData.get('nickname') || 'Friend';
+            userData.age = parseInt(formData.get('age'));
+            userData.weight = formData.get('weight') ? parseInt(formData.get('weight')) : null;
+            userData.weeklySpend = weeklySpendValue;
+            userData.goal = formData.get('goal');
+            userData.motivation = formData.get('motivation');
+            
+            // Recalculate daily savings
+            appData.dailySavings = weeklySpendValue > 0 ? weeklySpendValue / 7 : 0;
+            
+            saveData();
+            updateDashboard();
+            
+            showCustomAlert('Settings updated successfully! ✅');
+        }
+
+        // Populate settings form with current data
+        function populateSettingsForm() {
+            if (userData.nickname) {
+                document.getElementById('settingsNickname').value = userData.nickname;
+                document.getElementById('settingsAge').value = userData.age || '';
+                document.getElementById('settingsWeight').value = userData.weight || '';
+                document.getElementById('settingsWeeklySpend').value = userData.weeklySpend || '';
+                document.getElementById('settingsGoal').value = userData.goal || 'quit';
+                document.getElementById('settingsMotivation').value = userData.motivation || '';
+                
+                // Update start date
+                if (userData.startDate) {
+                    const startDate = new Date(userData.startDate);
+                    document.getElementById('startDate').textContent = startDate.toLocaleDateString();
+                }
+            }
+        }
+
+        // Reset all data function
+        function resetAllData() {
+            showConfirmDialog(
+                'Are you sure you want to reset all data? This will delete your progress, settings, and trigger logs. This action cannot be undone.',
+                () => {
+                    // Clear all data
+                    userData = {};
+                    appData = {
+                        currentStreak: 0,
+                        bestStreak: 0,
+                        totalNuts: 0,
+                        moneySaved: 0,
+                        dailySavings: 0,
+                        lastCheckIn: null,
+                        triggerLogs: [],
+                        tapScore: 0
+                    };
+                    
+                    // Clear localStorage
+                    if (storageAvailable) {
+                        try {
+                            localStorage.removeItem('crispyLungsUserData');
+                            localStorage.removeItem('crispyLungsAppData');
+                        } catch (error) {
+                            console.log('Error clearing localStorage:', error);
+                        }
+                    }
+                    
+                    // Return to onboarding
+                    showSection('onboarding');
+                    showCustomAlert('All data has been reset. Welcome back to onboarding! 🌰');
+                }
+            );
         }
 
         // Custom alert function (since alert() is not supported)
