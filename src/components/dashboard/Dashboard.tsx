@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '../auth/AuthProvider'
-import { useApi } from '../../hooks/useApi'
+import { useApi } from '../../hooks/useapiClient'
 import { SquirrelMascot } from './SquirrelMascot'
 import { StatsGrid } from './StatsGrid'
 import { LogTrigger } from './LogTrigger'
