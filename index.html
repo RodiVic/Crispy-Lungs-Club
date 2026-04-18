@@ -179,7 +179,7 @@
                 <p id="welcomeMessage" class="text-center text-lg text-driftwood dark:text-gray-300 mb-6">Welcome back!</p>
                 
                 <div class="text-center mb-8">
-                    <div id="squirrel" class="text-8xl mb-4">🐿️</div>
+                    <img id="squirrel" src="squirrel-stage1.png" class="w-40 mx-auto mb-4 transition-all duration-500" />
                     <div id="nutPile" class="text-4xl mb-4"></div>
                     <p class="text-lg font-semibold">Did you vape today?</p>
                 </div>
@@ -684,15 +684,33 @@
                         }, index * 100);
                     });
                     
-                    appData.currentStreak = 0;
+                    appData.currentStreak = 7;
                     appData.totalNuts = 0;
                 }
                 
                 message.textContent = 'It\'s okay! Tomorrow is a fresh start. Your squirrel believes in you! 💪';
                 message.className = 'text-center text-lg font-semibold text-orange-600';
-            }
-            
-            saveData();
+function getSquirrelStage(streak) {
+    if (streak >= 30) return 4;
+    if (streak >= 21) return 3;
+    if (streak >= 14) return 2;
+    if (streak >= 7) return 1;
+    return 0;
+}
+
+function updateSquirrelVisual() {
+    const squirrel = document.getElementById('squirrel');
+    const stage = getSquirrelStage(appData.currentStreak);
+
+    let image = 'squirrel-stage1.png';
+
+    if (stage === 1) image = 'squirrel-stage1.png';
+    if (stage === 2) image = 'squirrel-stage2.png';
+    if (stage === 3) image = 'squirrel-stage3.png';
+    if (stage === 4) image = 'squirrel-stage4.png';
+
+    squirrel.src = image;
+}
             updateDashboard();
         }
 
