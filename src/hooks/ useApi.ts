@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 import { useState } from 'react'
 import { supabase } from '../lib/supabase'
 
@@ -31,10 +32,30 @@ export function useApi() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const run = async <T>(fn: () => Promise<T>): Promise<T> => {
+  async function run<T>(fn: () => Promise<T>): Promise<T> {
     setLoading(true)
     setError(null)
     try {
+      return await fn()
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Unknown error'
+      setError(message)
+      throw err
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const getStats = () => run(() => callFunction('get-stats'))
+  const createAttempt = (params: { daily_cost_cents?: number; reason?: string; notes?: string }) =>
+    run(() => callFunction('create-attempt', 'POST', params))
+  const logTrigger = (params: { trigger_type_id: string; resisted?: boolean; intensity?: number; custom_trigger_text?: string; notes?: string }) =>
+    run(() => callFunction('log-trigger', 'POST', params))
+  const getLeaderboard = () => run(() => callFunction('get-leaderboard'))
+  const getTriggerTypes = () => run(() => callFunction('get-triggers'))
+
+  return { loading, error, getStats, createAttempt, logTrigger, getLeaderboard, getTriggerTypes }
+}    try {
       return await fn()
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Unknown error'
