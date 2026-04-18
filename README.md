@@ -117,3 +117,12 @@ The squirrel is just the messenger.
 And if you slip?
 
 The squirrel’s still here.
+
+
+
+
+
+## 🧪 Status
+
+This app is currently in active development.
+Features like accounts, leaderboards, and progression are evolving quickly.
