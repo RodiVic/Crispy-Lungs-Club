@@ -55,49 +55,4 @@ export function useApi() {
   const getTriggerTypes = () => run(() => callFunction('get-triggers'))
 
   return { loading, error, getStats, createAttempt, logTrigger, getLeaderboard, getTriggerTypes }
-}    try {
-      return await fn()
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Unknown error'
-      setError(message)
-      throw err
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  // Get current user's stats + active attempt
-  const getStats = () => run(() => callFunction('get-stats'))
-
-  // Start a new quit attempt (closes any existing active one)
-  const createAttempt = (params: {
-    daily_cost_cents?: number
-    reason?: string
-    notes?: string
-  }) => run(() => callFunction('create-attempt', 'POST', params))
-
-  // Log a trigger/craving
-  const logTrigger = (params: {
-    trigger_type_id: string
-    resisted?: boolean
-    intensity?: number          // 1-10
-    custom_trigger_text?: string
-    notes?: string
-  }) => run(() => callFunction('log-trigger', 'POST', params))
-
-  // Get the leaderboard (opted-in users ranked by current streak)
-  const getLeaderboard = () => run(() => callFunction('get-leaderboard'))
-
-  // Get the trigger type lookup list (for dropdowns)
-  const getTriggerTypes = () => run(() => callFunction('get-triggers'))
-
-  return {
-    loading,
-    error,
-    getStats,
-    createAttempt,
-    logTrigger,
-    getLeaderboard,
-    getTriggerTypes
-  }
 }
