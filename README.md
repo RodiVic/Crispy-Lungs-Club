@@ -1,73 +1,119 @@
-# Crispy-Lungs-Club
-A Gamified Quit Vaping Tracker. Quit vaping without going nuts. Track cravings, build streaks, and train your squirrel—one nut at a time.
-
 # 🐿️ Crispy Lungs Club
 
 **Quit vaping without going nuts.**
 
-Welcome to **Crispy Lungs Club**, the world’s cheekiest vape-quitting tracker where your progress is measured in *nuts* and your spirit animal is a squirrel who just wants to hoard acorns and help you breathe again.
+Crispy Lungs Club is a **gamified quit-vaping tracker** where your progress is measured in *nuts* and your spirit animal is a slightly unhinged squirrel trying to get its life together—just like you.
 
-This lighthearted web app is designed to make quitting (or cutting back on) nicotine a little less painful—and a little more playful. No shame. No lectures. Just daily check-ins, animated squirrels, and the quiet satisfaction of saving your lungs and your money.
-
----
-
-## 💾 Local-Only, Privacy-First
-
-We believe your recovery is **your business**, not ours. This app uses **100% localStorage** to keep your streaks, squirrel stash, and savings data private.
-
-* No logins
-* No cloud sync
-* No data sent anywhere
-* Your secrets stay on your device
-
-Clear your browser cache, and the squirrel forgets you. Otherwise? It’s just between you and the nuts.
+No shame. No lectures. Just daily check-ins, evolving squirrel energy, and the quiet satisfaction of saving your lungs (and your money).
 
 ---
 
 ## 🎮 How It Works
 
-* Every day you **don’t vape**, your squirrel earns a **nut**.
-* Miss a day? The nuts vanish. The squirrel gets sad. But you get to try again tomorrow.
-* You can track:
+* Every day you **don’t vape**, your squirrel earns a **nut**
+* Build streaks → your squirrel **levels up visually**
+* 7 / 14 / 21 / 30 days → new squirrel stages
+* Hit 30 days → full glow-up 🟢
+* Relapse? You drop back to **Stage 1**, not zero. You’re not starting over—you’re continuing.
 
-  * Days vape-free
-  * Best streak
-  * Money saved (based on your own spend data)
-  * Triggers, cravings, and coping wins
+Track:
 
-Also includes:
+* Vape-free streaks
+* Best streak
+* Money saved (based on your real spend)
+* Triggers, cravings, and coping wins
 
-* Craving distraction mini-tools
-* Journaling prompts
-* FAQ & words of support
+Includes:
+
+* Distraction mini-tools
+* Breathing exercises
+* Trigger journaling
+* A squirrel that judges you (lovingly)
 
 ---
 
-## ⚠️ Medical Disclaimer
+## 🧠 Progression System
 
-**This app is not a medical device or a substitute for professional help.**
+This isn’t just tracking—it’s identity.
 
-Crispy Lungs Club is a self-guided reflection and habit-tracking tool for informational and motivational purposes only. If you are experiencing nicotine withdrawal symptoms, mental health concerns, or substance dependency, we encourage you to speak with a healthcare provider or support service.
+Your squirrel evolves with you:
+
+* 🪦 Stage 1 (7 days): surviving
+* ⚡ Stage 2 (14 days): stabilizing
+* 🔥 Stage 3 (21 days): strong
+* 🟢 Stage 4 (30+ days): thriving
+
+The goal isn’t perfection. It’s momentum.
+
+---
+
+## 🔐 Accounts & Data
+
+Crispy Lungs Club now supports **user accounts and cloud sync**.
+
+* Secure login (via Supabase)
+* Progress saved across devices
+* Leaderboards (optional participation)
+* Local + cloud hybrid storage
+
+Your data is still yours—but now it doesn’t disappear if your browser does.
+
+---
+
+## 🏆 Leaderboards (Optional)
+
+See how your squirrel stacks up.
+
+* Compare streaks with others
+* Track longest runs
+* Stay motivated through friendly competition
+
+*(Opt-in only — this is your journey first.)*
 
 ---
 
 ## 🛠️ Built With
 
-* HTML / CSS / JavaScript
-* Hosted via GitHub + Netlify
-* Stored entirely in localStorage
+* HTML / CSS / JavaScript (frontend)
+* Supabase (auth + database)
+* Netlify (hosting + functions)
+* GitHub (source control)
 
 ---
 
-## 🧠 Future Add-ons (Maybe)
+## ⚠️ Medical Disclaimer
 
-* Custom squirrel outfits
-* Nut badge achievements
-* Journal export
-* Squirrel sounds (only if you’re into that)
+This app is **not medical advice**.
+
+Crispy Lungs Club is a motivational and behavioral tool—not a replacement for professional care.
+
+If you're experiencing withdrawal symptoms, mental health concerns, or dependency challenges, please consult a qualified healthcare provider.
+
+---
+
+## 🧠 What This Really Is
+
+This is not a squirrel app.
+
+It’s a **behavior loop**:
+
+* action → reward → identity → repeat
+
+The squirrel is just the messenger.
+
+---
+
+## 🚀 Coming Soon
+
+* Avatar customization (outfits, styles)
+* Achievement system (badges + unlocks)
+* Advanced analytics (patterns + triggers)
+* Beta listener / community layer (DraftAudio crossover 👀)
 
 ---
 
 **Breathe. Don’t burn.**
 
-And if you mess up? It’s just a squirrel. Start again tomorrow.
+And if you slip?
+
+The squirrel’s still here.
