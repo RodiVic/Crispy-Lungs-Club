@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useApi } from '../../hooks/useapiClient'
+import { useApi } from '../../hooks/apiClient'
 import type { TriggerType } from '../../types'
 
 type Props = {
