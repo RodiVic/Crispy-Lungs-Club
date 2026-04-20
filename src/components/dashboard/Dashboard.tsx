@@ -27,7 +27,12 @@ export function Dashboard() {
     }
   }
 
-  useEffect(() => { loadAll() }, [])
+useEffect(() => {
+  const timer = setTimeout(() => {
+    loadAll()
+  }, 500)
+  return () => clearTimeout(timer)
+}, [])
 
   if (loading) return <div className="loading">🐿️ Loading your stats...</div>
   if (error) return <div className="error">Something went wrong: {error}</div>
