@@ -3,14 +3,22 @@ import { supabase } from '../../lib/supabase'
 
 export function AuthCallback() {
   useEffect(() => {
-    // Supabase handles the token exchange from the URL hash automatically
-    supabase.auth.getSession().then(() => {
-      window.location.replace('/')
+    supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN' && session) {
+        window.location.replace('/')
+      }
+    })
+
+    // Also try to get session from URL hash
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        window.location.replace('/')
+      }
     })
   }, [])
 
   return (
-    <div className="auth-container">
+    <div style={{ textAlign: 'center', padding: '2rem' }}>
       <p>Signing you in... 🐿️</p>
     </div>
   )
