@@ -1,11 +1,6 @@
 import { Handler } from '@netlify/functions'
 import { createClient } from '@supabase/supabase-js'
 
-const supabase = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
-
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'Content-Type, Authorization',
@@ -19,11 +14,30 @@ export const handler: Handler = async (event) => {
     const token = event.headers.authorization?.replace('Bearer ', '')
     if (!token) return { statusCode: 401, body: JSON.stringify({ error: 'Missing authorization header' }) }
 
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token)
-    if (authError || !user) return { statusCode: 401, body: JSON.stringify({ error: 'Invalid token' }) }
+    // Create a user-scoped client using the anon key + user's token
+    const supabase = createClient(
+      process.env.SUPABASE_URL!,
+      process.env.SUPABASE_ANON_KEY!,
+      {
+        global: {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      }
+    )
 
-    // Recalculate stats fresh, then fetch
-    await supabase.rpc('recalculate_user_stats', { target_user_id: user.id })
+    // Verify the user
+    const { data: { user }, error: authError } = await supabase.auth.getUser(token)
+    if (authError || !user) {
+      console.log('Auth error:', authError?.message)
+      return { statusCode: 401, body: JSON.stringify({ error: 'Invalid token' }) }
+    }
+
+    // Recalculate stats
+    const serviceSupabase = createClient(
+      process.env.SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!
+    )
+    await serviceSupabase.rpc('recalculate_user_stats', { target_user_id: user.id })
 
     const { data: stats, error: statsError } = await supabase
       .from('user_stats')
